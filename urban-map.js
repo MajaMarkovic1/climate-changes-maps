@@ -4,8 +4,9 @@ let mapview;
 require([
     "esri/Map",
     "esri/views/MapView",
-    "esri/request"
-    ], function(Map, MapView, Request) {
+    "esri/request",
+    "esri/layers/MapImageLayer"
+    ], function(Map, MapView, Request, MapImageLayer) {
         map = new Map({
             basemap: "topo"
         });
@@ -28,6 +29,14 @@ require([
                     let option = document.createElement("option");
                     option.textContent = element.name;
                     listservices.appendChild(option);
+                });
+                listservices.addEventListener("change", function(){
+                    let selectedLayer = listservices.options[listservices.selectedIndex].textContent;
+                    let layer = new MapImageLayer({
+                        url: "https://climate.discomap.eea.europa.eu/arcgis/rest/services/" + selectedLayer + "/MapServer"
+                    });
+                    map.removeAll();                
+                    map.add(layer);
                 });
             })
  });
