@@ -5,15 +5,16 @@ require([
     "esri/Map",
     "esri/views/MapView",
     "esri/request",
-    "esri/layers/MapImageLayer"
-    ], function(Map, MapView, Request, MapImageLayer) {
+    "esri/layers/MapImageLayer",
+    "esri/widgets/Legend"
+    ], function(Map, MapView, Request, MapImageLayer, Legend) {
         map = new Map({
             basemap: "topo"
         });
         mapview = new MapView({
             container: "map",
             map: map,
-            center: [10.947334793566274, 54.38122882484246],
+            center: [3.947334793566274, 54.38122882484246],
             zoom: 4
         })
 
@@ -39,6 +40,9 @@ require([
                     map.add(layer);
                 });
             })
+
+        let legend = new Legend({view: mapview});
+        mapview.ui.add(legend, "bottom-left");
  });
 
  //basemaps
