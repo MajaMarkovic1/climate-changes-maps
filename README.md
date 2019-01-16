@@ -1,4 +1,4 @@
-# urban-data-maps
+ArcGIS API for Javascript
 
 Small aplication showing urban vulnerabilities and changes in Europe.
 Used technology: ArcGIS API for Javascript.
