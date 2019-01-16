@@ -1,5 +1,6 @@
 let map;
 let mapview;
+
 require([
     "esri/Map",
     "esri/views/MapView"
@@ -14,3 +15,17 @@ require([
             zoom: 4
         })
  });
+
+ let basemaps = ["osm", "gray", "hybrid", "national-geographic", "satellite", "streets", "terrain", "topo"];
+ let listbasemaps = document.getElementById("basemaps");
+ basemaps.forEach(element => {
+     let option = document.createElement("option");
+     option.textContent = element;
+     listbasemaps.appendChild(option);
+     
+ });
+ document.getElementById("basemaps").addEventListener("change", function(){
+    let selectedBasemap = listbasemaps.options[listbasemaps.selectedIndex].textContent;
+    mapview.map.basemap = selectedBasemap;
+})
+ 

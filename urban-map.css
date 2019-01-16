@@ -1,6 +1,15 @@
-html, body, #map {
-    padding: 0;
+.container {
+    padding: 1rem;
     margin: 0 auto;
-    width: 90%;
+    display: flex;
+    justify-content: space-between;    
+}
+
+#map {
+    width: 80%;
+    height: 700px;    
+}
+
+#navbar {
     height: 100%;
 }
