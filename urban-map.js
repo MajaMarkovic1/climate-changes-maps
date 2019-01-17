@@ -1,5 +1,6 @@
 let map;
 let mapview;
+let layer;
 
 require([
     "esri/Map",
@@ -20,27 +21,41 @@ require([
 
         // layers
 
-        let url = "https://climate.discomap.eea.europa.eu/arcgis/rest/services/Urban_Vulnerability?f=pjson";
+        let url = "https://climate.discomap.eea.europa.eu/arcgis/rest/services?f=pjson";
         let options = {responseType: "json"};
         Request(url, options)
             .then((response) => {
-                let services = response.data.services;
-                let listservices = document.getElementById("services");
-                services.forEach(element => {
+                let folders = response.data.folders;
+                let listfolders = document.getElementById("folders");
+                folders.forEach(element => {
                     let option = document.createElement("option");
-                    option.textContent = element.name;
-                    listservices.appendChild(option);
+                    option.textContent = element;
+                    listfolders.appendChild(option);
                 });
-                listservices.addEventListener("change", function(){
-                    let selectedLayer = listservices.options[listservices.selectedIndex].textContent;
-                    let layer = new MapImageLayer({
-                        url: "https://climate.discomap.eea.europa.eu/arcgis/rest/services/" + selectedLayer + "/MapServer"
-                    });
-                    map.removeAll();                
-                    map.add(layer);
+                let service = document.getElementById("services");
+                let select_label = document.getElementById("select_label");
+                service.style.display = "none";
+                select_label.style.display = "none";
+                
+                listfolders.addEventListener("change", function(){
+                    let selectedFolder = listfolders.options[listfolders.selectedIndex].textContent;
+                    let folderUrl = "https://climate.discomap.eea.europa.eu/arcgis/rest/services/" + selectedFolder + "?f=pjson";
+                    Request(folderUrl, options)
+                        .then((response) => {
+                            let services = response.data.services;
+                            service.innerHTML = '';
+                            service.style.display = "block";
+                            select_label.style.display = "block";
+                            services.forEach(element => {
+                                let option = document.createElement("option");
+                                option.textContent = element.name;
+                                service.appendChild(option);
+                            
+                            });
+                        });
                 });
             })
-
+            
         let legend = new Legend({view: mapview});
         mapview.ui.add(legend, "bottom-left");
  });
