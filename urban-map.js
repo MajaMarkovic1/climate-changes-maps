@@ -25,8 +25,12 @@ require([
         let options = {responseType: "json"};
         Request(url, options)
             .then((response) => {
+
+                // folders
+
                 let folders = response.data.folders;
                 let listfolders = document.getElementById("folders");
+                listfolders.innerHTML = '';
                 folders.forEach(element => {
                     let option = document.createElement("option");
                     option.textContent = element;
@@ -42,6 +46,9 @@ require([
                     let folderUrl = "https://climate.discomap.eea.europa.eu/arcgis/rest/services/" + selectedFolder + "?f=pjson";
                     Request(folderUrl, options)
                         .then((response) => {
+
+                            //services
+
                             let services = response.data.services;
                             service.innerHTML = '';
                             service.style.display = "block";
@@ -50,7 +57,40 @@ require([
                                 let option = document.createElement("option");
                                 option.textContent = element.name;
                                 service.appendChild(option);
-                            
+                            });
+                            service.addEventListener("change", function(){
+
+                                // sublayers
+
+                                let selectedLayer = service.options[service.selectedIndex].textContent;
+                                layer = new MapImageLayer({
+                                    url: "https://climate.discomap.eea.europa.eu/arcgis/rest/services/" + selectedLayer + "/MapServer"
+                                });
+                                map.removeAll();                
+                                map.add(layer);
+                                layer.when(function(){
+                                    // mapview.goTo(layer.fullExtent);
+                                    let layers = document.getElementById("layers");
+                                    layers.innerHTML = '';
+                                    for (let i = 0; i < layer.sublayers.length; i++) {
+                                        let sublayer = layer.sublayers.items[i];
+                                        let div = document.createElement("div");
+                                        let checkbox = document.createElement("input");
+                                        let label = document.createElement("label");
+                                        checkbox.type = "checkbox";
+                                        checkbox.value = sublayer.id;
+                                        checkbox.checked = sublayer.visible;
+                                        label.textContent = sublayer.title;
+                                        layers.appendChild(div);
+                                        div.appendChild(checkbox);
+                                        div.appendChild(label);
+                                        checkbox.addEventListener("click", function(e){
+                                            let clickedLayer = layer.findSublayerById(Number(e.target.value));
+                                            clickedLayer.visible = e.target.checked;
+                                        })
+                                    };
+                                   
+                                });
                             });
                         });
                 });
@@ -65,13 +105,14 @@ require([
  let basemaps = ["osm", "gray", "hybrid", "national-geographic", "satellite", "streets", "terrain", "topo"];
  let listbasemaps = document.getElementById("basemaps");
  basemaps.forEach(element => {
-     let option = document.createElement("option");
-     option.textContent = element;
-     listbasemaps.appendChild(option);
+     let button = document.createElement("button");
+     button.textContent = element;
+     button.className = "btn btn-primary";
+     listbasemaps.appendChild(button);
      
  });
- document.getElementById("basemaps").addEventListener("change", function(){
-    let selectedBasemap = listbasemaps.options[listbasemaps.selectedIndex].textContent;
+ document.getElementById("basemaps").addEventListener("click", function(event){
+    let selectedBasemap = event.target.innerHTML;
     mapview.map.basemap = selectedBasemap;
 })
 

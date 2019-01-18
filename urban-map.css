@@ -1,22 +1,55 @@
-.container {
+body {
     padding: 1rem;
-    margin: 0 auto;
+    margin: 0 auto;   
+}
+
+h1 {
+    padding-left: 6rem;
+    padding-bottom: 1rem;
+    text-align: left;
+}
+
+#content {
     display: flex;
-    justify-content: space-between;    
+    justify-content: space-between; 
 }
 
 #map {
-    width: 80%;
+    width: 70%;
     height: 700px;    
+}
+
+#basemaps {
+    margin-bottom: 1rem;
+    display: flex;
+}
+
+#basemaps button {
+    margin: 2px;
+    width: 10rem;
 }
 
 #navbar {
     height: 100%;
-    width: 15%;
+    width: 25%;
     float: left;
 }
 
-.btn-primary {
+#navbar .btn-outline-primary {
  width: 100%;
  margin-bottom: 1rem;
+ 
+}
+
+#layers {
+    font-size: 0.9rem;
+    display: block;
+}
+#layers div {
+    display: flex;
+    justify-content: space-between;
+}
+
+#layers div label {
+    width: 90%;
 }
