@@ -1,6 +1,6 @@
-#urban-data-maps
+# European climate changes app
 
-Small aplication showing urban vulnerabilities and changes in Europe.
+## Small aplication showing climate changes in Europe.
 
 Used technology: ArcGIS API for Javascript.
 
