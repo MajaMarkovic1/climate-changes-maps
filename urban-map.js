@@ -7,8 +7,9 @@ require([
     "esri/views/MapView",
     "esri/request",
     "esri/layers/MapImageLayer",
-    "esri/widgets/Legend"
-    ], function(Map, MapView, Request, MapImageLayer, Legend) {
+    "esri/widgets/Legend",
+    "esri/widgets/Search"
+    ], function(Map, MapView, Request, MapImageLayer, Legend, Search) {
         map = new Map({
             basemap: "topo"
         });
@@ -41,7 +42,7 @@ require([
                 service.style.display = "none";
                 select_label.style.display = "none";
                 
-                listfolders.addEventListener("change", function(){
+                listfolders.addEventListener("click", function(){
                     let selectedFolder = listfolders.options[listfolders.selectedIndex].textContent;
                     let folderUrl = "https://climate.discomap.eea.europa.eu/arcgis/rest/services/" + selectedFolder + "?f=pjson";
                     Request(folderUrl, options)
@@ -58,9 +59,9 @@ require([
                                 option.textContent = element.name;
                                 service.appendChild(option);
                             });
-                            service.addEventListener("change", function(){
+                            service.addEventListener("click", function(){
 
-                                // sublayers
+                                // layers
 
                                 let selectedLayer = service.options[service.selectedIndex].textContent;
                                 layer = new MapImageLayer({
@@ -72,15 +73,15 @@ require([
                                     // mapview.goTo(layer.fullExtent);
                                     let layers = document.getElementById("layers");
                                     layers.innerHTML = '';
-                                    for (let i = 0; i < layer.sublayers.length; i++) {
-                                        let sublayer = layer.sublayers.items[i];
+                                    let layerslist = layer.sublayers.items;
+                                    layerslist.forEach(element => {
                                         let div = document.createElement("div");
                                         let checkbox = document.createElement("input");
                                         let label = document.createElement("label");
                                         checkbox.type = "checkbox";
-                                        checkbox.value = sublayer.id;
-                                        checkbox.checked = sublayer.visible;
-                                        label.textContent = sublayer.title;
+                                        checkbox.value = element.id;
+                                        checkbox.checked = element.visible;
+                                        label.textContent = element.title;
                                         layers.appendChild(div);
                                         div.appendChild(checkbox);
                                         div.appendChild(label);
@@ -88,8 +89,9 @@ require([
                                             let clickedLayer = layer.findSublayerById(Number(e.target.value));
                                             clickedLayer.visible = e.target.checked;
                                         })
-                                    };
-                                   
+
+                                    });
+                                  
                                 });
                             });
                         });
@@ -98,6 +100,8 @@ require([
             
         let legend = new Legend({view: mapview});
         mapview.ui.add(legend, "bottom-left");
+        let search = new Search({view: mapview});
+        mapview.ui.add(search, "top-left");
  });
 
  //basemaps
