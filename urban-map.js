@@ -27,121 +27,42 @@ require([
 
         // layers
 
-        let url = "https://climate.discomap.eea.europa.eu/arcgis/rest/services?f=pjson";
-        let options = {responseType: "json"};
-        Request(url, options)
+        let service = new Service();
+        Request(service.folderUrl, service.options)
             .then((response) => {
-
-                // folders
-
                 let folders = response.data.folders;
                 let listfolders = document.getElementById("folders");
-                
-                createFoldersList(listfolders, folders);
-
-                let service = document.getElementById("services");
-                let select_label = document.getElementById("select_label");
-                service.style.display = "none";
-                select_label.style.display = "none";
-                
-                listfolders.addEventListener("click", function(){
+                service.createFoldersList(listfolders, folders);
+                let serviceList = document.getElementById("services");
+                let selectLabel = document.getElementById("select_label");
+                serviceList.style.display = "none";
+                selectLabel.style.display = "none";
+                listfolders.addEventListener("change", function(){
                     let selectedFolder = listfolders.options[listfolders.selectedIndex].textContent;
-                    let folderUrl = "https://climate.discomap.eea.europa.eu/arcgis/rest/services/" + selectedFolder + "?f=pjson";
-                    Request(folderUrl, options)
+                    let serviceUrl = service.url + '/' + selectedFolder + "?f=pjson";
+                    Request(serviceUrl, service.options)
                         .then((response) => {
-
-                            //services
-
                             let services = response.data.services;
-                            createServicesList(service, services);
-                            service.addEventListener("click", function(){
-
-                                // adding layers
-
-                                let selectedLayer = service.options[service.selectedIndex].textContent;
+                            service.createServicesList(services, serviceList, selectLabel);
+                            serviceList.addEventListener("change", function(){
+                                let selectedLayer = serviceList.options[serviceList.selectedIndex].textContent;
                                 layer = new MapImageLayer({
-                                    url: "https://climate.discomap.eea.europa.eu/arcgis/rest/services/" + selectedLayer + "/MapServer"
+                                    url: service.url + '/' + selectedLayer + "/MapServer"
                                 });
                                 map.removeAll();                
                                 map.add(layer);
                                 layer.when(function(){
                                     // mapview.goTo(layer.fullExtent);
-                                    createLayersList(layer);
+                                    service.createLayersList();
                                 });
                             });
                         });
                 });
-            });
-            
+            });  
     });
 
  //basemaps
 
-let basemaps = ["osm", "gray", "hybrid", "national-geographic", "satellite", "streets", "terrain", "topo"];
-let listbasemaps = document.getElementById("basemaps");
-
-createBasemapButtons();
-chooseBasemap();
-
-function createBasemapButtons(){
-    basemaps.forEach(element => {
-        let button = document.createElement("button");
-        button.textContent = element;
-        button.className = "btn btn-primary";
-        listbasemaps.appendChild(button);
-    });
-}
-
-function chooseBasemap(){
-    listbasemaps.addEventListener("click", function(event){
-        let selectedBasemap = event.target.innerHTML;
-        mapview.map.basemap = selectedBasemap;
-    })
-}
-
-let createFoldersList = function(listfolders, folders){
-    listfolders.innerHTML = '';
-    folders.forEach(element => {
-        let option = document.createElement("option");
-        option.textContent = element;
-        listfolders.appendChild(option);
-    });
-}
-
-let createServicesList = function(service, services){
-    service.innerHTML = '';
-    service.style.display = "block";
-    select_label.style.display = "block";
-    services.forEach(element => {
-        let option = document.createElement("option");
-        option.textContent = element.name;
-        service.appendChild(option);
-    });
-}
-
-let createLayersList = function(layer){
-    let layers = document.getElementById("layers");
-    layers.innerHTML = '';
-    let layerslist = layer.sublayers.items;
-    layerslist.forEach(element => {
-        let div = document.createElement("div");
-        let checkbox = document.createElement("input");
-        let label = document.createElement("label");
-        checkbox.type = "checkbox";
-        checkbox.value = element.id;
-        checkbox.checked = element.visible;
-        label.textContent = element.title;
-        layers.appendChild(div);
-        div.appendChild(checkbox);
-        div.appendChild(label);
-        showLayer(checkbox, layer);
-    });
-}
-
-let showLayer = function(checkbox, layer){
-    checkbox.addEventListener("click", function(e){
-        let clickedLayer = layer.findSublayerById(Number(e.target.value));
-        clickedLayer.visible = e.target.checked;
-    })
-}
-
+ let basemap = new Basemap();
+ basemap.createBasemapButtons();
+ basemap.selectBasemap();
