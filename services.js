@@ -1,35 +1,15 @@
 class Service{
 
-    constructor(){
-        this.url = "https://climate.discomap.eea.europa.eu/arcgis/rest/services";
-        this.folderUrl = this.url + '?f=pjson';
-        this.options = {responseType: "json"};
-    }
-
-    createFoldersList(listfolders, folders){
-        listfolders.innerHTML = '';
-        folders.forEach(element => {
-            let option = document.createElement("option");
-            option.textContent = element;
-            listfolders.appendChild(option);
-        });
-    }
-
     createServicesList(services, serviceList, selectLabel){
         serviceList.innerHTML = '';
-        serviceList.style.display = "block";
-        selectLabel.style.display = "block";
         services.forEach(element => {
             let option = document.createElement("option");
-            option.textContent = element.name;
+            option.textContent = element.name.substring(20);
             serviceList.appendChild(option);
         });
     }
 
-    createLayersList(){
-        let layers = document.getElementById("layers");
-        layers.innerHTML = '';
-        let layerslist = layer.sublayers.items;
+    createLayersList(layers, layerslist){
         layerslist.forEach(element => {
             let div = document.createElement("div");
             let checkbox = document.createElement("input");
