@@ -33,11 +33,13 @@ body {
 #basemaps button:hover{
     background-color: white;
     color: rgb(4, 26, 41);
+    border: 1px solid rgb(4, 26, 41);    
 }
 
-#basemaps button:focus {
+#basemaps .active {
     background-color: white;
     color: rgb(4, 26, 41);
+    border: 1px solid rgb(4, 26, 41);
 }
 
 #navbar {
@@ -90,3 +92,22 @@ body {
     zoom: 1.5;
 }
 
+#cities .active {
+    color: aquamarine;
+}
+
+#card {
+    position: absolute;
+    left: 11rem;
+    top: 9rem;
+    margin: 1rem;
+    width: 250px;
+    height: 20%;
+    background-color: beige;
+    padding: 1rem;
+    overflow-y: scroll;
+    font-size: 14px;
+    border: 1px solid rgb(4, 26, 41);
+    border-radius: 1rem;
+    display: none;
+}
