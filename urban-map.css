@@ -1,15 +1,92 @@
-.container {
+body {
     padding: 1rem;
-    margin: 0 auto;
+    margin: 0 auto;   
+}
+
+#content {
     display: flex;
-    justify-content: space-between;    
+    justify-content: space-between; 
 }
 
 #map {
-    width: 80%;
-    height: 700px;    
+    width: 78%;
+    height: 700px;  
+    position: relative;  
+}
+
+#basemaps {
+    margin-bottom: 1rem;
+    display: flex;
+}
+
+#basemaps button {
+    margin: 2px;
+    width: 13rem;
+    background-color: rgb(4, 26, 41);
+    opacity: 0.8;
+    color: white;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    
+}
+
+#basemaps button:hover{
+    background-color: white;
+    color: rgb(4, 26, 41);
+}
+
+#basemaps button:focus {
+    background-color: white;
+    color: rgb(4, 26, 41);
 }
 
 #navbar {
     height: 100%;
+    width: 20%;
+    float: left;
 }
+
+#navbar select {
+ width: 100%;
+ margin-bottom: 1rem;
+ border-color: rgb(53, 89, 124);
+ color: white;
+ padding: 10px;
+ background-color: rgb(4, 26, 41);
+}
+
+#layers {
+    font-size: 0.9rem;
+    display: block;
+}
+#layers div {
+    display: flex;
+    justify-content: space-between;
+}
+
+#layers div label {
+    width: 90%;
+}
+
+#cities {
+    position: absolute;
+    right: 0;
+    background-color: rgb(4, 26, 41);
+    opacity: 0.8;
+    width: 200px;
+    height: 100%;
+    overflow-y: scroll;
+    margin: 1rem;
+    display: none;
+}
+
+#cities div{
+    margin-left: 1rem;
+    margin-top: 0.5rem;    
+    color: white;
+}
+
+#cities div:hover{
+    zoom: 1.5;
+}
+
