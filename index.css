@@ -27,7 +27,7 @@ body {
     color: white;
     padding-top: 0.8rem;
     padding-bottom: 0.8rem;
-    
+    cursor: pointer;
 }
 
 #basemaps button:hover{
@@ -54,11 +54,16 @@ body {
     color: white;
     padding: 10px;
     background-color: rgb(4, 26, 41);
+    opacity: 0.8;
+    cursor: pointer;
+
 }
 
 #layers {
     font-size: 0.9rem;
     display: block;
+    cursor: pointer;
+
 }
 #layers div {
     display: flex;
@@ -98,7 +103,9 @@ body {
 }
 
 #cities div:hover{
-    zoom: 1.5;
+    cursor: pointer;
+    color: aquamarine;
+
 }
 
 #cities .active {

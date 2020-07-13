@@ -1,0 +1,19 @@
+{
+  "name": "climate-changes-maps",
+  "version": "1.0.0",
+  "description": "Used technologies: Object Oriented Javascript, ES6, ArcGIS API for Javascript (basemaps, feature layers, requests, queries, legend widget, search widget, zoom feature), HTML5, CSS3.",
+  "main": "basemaps.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MajaMarkovic1/climate-changes-maps.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MajaMarkovic1/climate-changes-maps/issues"
+  },
+  "homepage": "https://github.com/MajaMarkovic1/climate-changes-maps#readme"
+}
